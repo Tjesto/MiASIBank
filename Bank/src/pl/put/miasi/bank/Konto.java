@@ -33,6 +33,8 @@ public class Konto {
 	
 	private double saldo;
 	
+	private String ID;
+	
 	private final Wlasciciel wlasciciel;
 	
 	private final Map<Date, Wpis> historia;//co zamiast inta?
@@ -91,6 +93,14 @@ public class Konto {
 
 	public void setDebet(double debet) {
 		this.debet = debet;
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
 	}
 	
 }
