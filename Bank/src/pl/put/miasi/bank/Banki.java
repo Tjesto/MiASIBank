@@ -18,7 +18,7 @@ public class Banki {
 	
 	private String prefix;
 
-	public String getId()
+	public String getId() throws Exception
 	{
 		prefixGenerator++;
 		
@@ -87,6 +87,11 @@ public class Banki {
 		this.prefix = prefix;
 		this.banki = banki;
 		prefixGenerator = 0;
+	}
+	
+	public boolean addBank( Bank bank )
+	{
+		return banki.add(bank);
 	}
 
 	public int getPrefixLength() {
