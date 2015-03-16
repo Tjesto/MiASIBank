@@ -32,9 +32,23 @@ public class Banki {
 				fill = fill + '0';
 			}
 		}
-		String tmp = fill + Integer.toString(prefixGenerator);
-		
-		while (banki.contains(tmp)) {
+
+		boolean finishLoop = false;
+		while( !finishLoop )
+		{
+			String tmp = fill + Integer.toString(prefixGenerator);
+			finishLoop = true;
+			for( int i = 0; i < banki.size(); i++ ){
+				if( banki.get(i).getID().equals(tmp) ){
+					finishLoop = false;
+				}
+			}
+			
+			if(finishLoop == true)
+			{
+				return tmp;
+			}
+			
 			prefixGenerator++;
 			
 			fill = prefix;
@@ -51,7 +65,7 @@ public class Banki {
 			
 			tmp = prefix + Integer.toString(prefixGenerator);
 		}
-		return tmp;
+		throw new Exception("Unreachable code getId");
 	}
 
 	public Banki() {
