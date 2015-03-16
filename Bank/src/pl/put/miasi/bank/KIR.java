@@ -1,7 +1,7 @@
 package pl.put.miasi.bank;
 
 /**
- * @author Mikolaj Szyhowiak
+ * @author Mikołaj Szychowiak
  *
  */
 public final class KIR {
