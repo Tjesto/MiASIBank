@@ -17,11 +17,10 @@ public class Konta {
 
 	private int IDGenerator;
 
-	public int getId() {
+	public String getId() {
 		IDGenerator++;
 		
 		String fill = prefix;
-		
 		int diff = Integer.toString(IDGenerator).length() - prefixLength;
 		if(diff < 0)
 		{
@@ -32,11 +31,25 @@ public class Konta {
 			}
 		}
 		String tmp = fill + Integer.toString(IDGenerator);
+		
 		while (konta.contains(tmp)) {
 			IDGenerator++;
+			
+			fill = prefix;
+			diff = Integer.toString(IDGenerator).length() - prefixLength;
+			if(diff < 0)
+			{
+				while( diff < 0 )
+				{
+					diff++;
+					fill = fill + '0';
+				}
+			}
+			tmp = fill + Integer.toString(IDGenerator);
+			
 			tmp = prefix + Integer.toString(IDGenerator);
 		}
-		return IDGenerator;
+		return tmp;
 	}
 
 	public String getPrefix() throws Exception {
