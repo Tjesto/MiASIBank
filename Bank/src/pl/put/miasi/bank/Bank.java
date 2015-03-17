@@ -1,7 +1,7 @@
 package pl.put.miasi.bank;
 /**
  * 
- * @author Mikołaj Szychowiak
+ * @author Mikolaj Szychowiak
  *
  */
 public class Bank {

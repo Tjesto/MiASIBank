@@ -101,6 +101,10 @@ public class Banki {
 	public void setPrefixLength(int prefixLength) {
 		this.prefixLength = prefixLength;
 	}
+
+	public List<Bank> getBanki() {
+		return banki;
+	}
 	
 	
 }
