@@ -133,21 +133,21 @@ public class KontoTest {
 	@Test
 	public void checkHistory() {
 		double in = rand.nextInt(3000) + 1000;
-		konto.wplata(in);
+		konto.wplata(in);		
 		assertEquals(1, konto.getHistoria().size());
-		Wpis w = konto.getHistoria().get(konto.getHistoria().entrySet().toArray()[0]);
+		Date d1 = (Date) konto.getHistoria().keySet().iterator().next();
+		Wpis w = konto.getHistoria().get(d1);
 		assertEquals(w.getOperacja(), Operacja.WPLATA);
 		assertEquals(in, (Double) w.getParams().get(0), 0.01);
-		double wyplata = rand.nextInt(3000)*rand.nextDouble();
+		double wyplata = rand.nextInt(300)*rand.nextDouble();
 		if (wyplata < 0) {
 			wyplata *= -1;
-		}		
-		Date d1 = (Date) konto.getHistoria().entrySet().toArray()[0];
+		}				
 		konto.wyplata(wyplata);		
 		assertEquals(2, konto.getHistoria().size());		
 		Set<Date> temp = konto.getHistoria().keySet();
 		temp.remove(d1);
-		d1 = (Date) temp.toArray()[0];
+		d1 = (Date) temp.iterator().next();
 		w = konto.getHistoria().get(d1);
 		assertEquals(w.getOperacja(), Operacja.WYPLATA);
 		assertEquals(wyplata, (Double) w.getParams().get(0), 0.01);
