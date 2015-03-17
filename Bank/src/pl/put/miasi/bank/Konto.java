@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * 
- * @author Mikołaj Szychowiak
+ * @author Mikolaj Szychowiak
  *
  */
 public class Konto {
