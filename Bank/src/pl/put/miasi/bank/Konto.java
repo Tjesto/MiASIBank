@@ -48,12 +48,12 @@ public class Konto {
 	}
 	
 	public Konto(Wlasciciel wlasciciel, double saldo) {
-		this.wlasciciel = wlasciciel;		
-		this.saldo = saldo;
+		this.wlasciciel = wlasciciel;			
+		this.saldo = Math.max(saldo, 0);
 		historia = new HashMap<Date, Wpis>();		
 	}	
 	
-	public void wplata(double kwota) {
+	public void wplata(double kwota) throws IllegalArgumentException {
 		if (kwota >=0) {
 			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WPLATA, kwota));
 			saldo += kwota;
@@ -65,7 +65,7 @@ public class Konto {
 	public void wyplata(double kwota) {
 		if (kwota >=0 && saldo - kwota >= -debet) {
 			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WYPLATA, kwota));
-			saldo += kwota;
+			saldo -= kwota;
 		} else if (kwota >=0) {
 			throw new IllegalStateException("Brak wystarczaj¹cych œrodków na koncie");
 		} else {
