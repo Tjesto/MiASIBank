@@ -5,12 +5,17 @@ package pl.put.miasi.bank;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import pl.put.miasi.bank.Konto.Wpis;
 
 /**
  * @author inf106580
@@ -123,6 +128,29 @@ public class KontoTest {
 		}		
 		konto.wyplata(wyplata);
 		assertEquals(initialSaldo - wyplata, konto.getSaldo(), 0.01);
+	}
+	
+	@Test
+	public void checkHistory() {
+		double in = rand.nextInt(3000) + 1000;
+		konto.wplata(in);
+		assertEquals(1, konto.getHistoria().size());
+		Wpis w = konto.getHistoria().get(konto.getHistoria().entrySet().toArray()[0]);
+		assertEquals(w.getOperacja(), Operacja.WPLATA);
+		assertEquals(in, (Double) w.getParams().get(0), 0.01);
+		double wyplata = rand.nextInt(3000)*rand.nextDouble();
+		if (wyplata < 0) {
+			wyplata *= -1;
+		}		
+		Date d1 = (Date) konto.getHistoria().entrySet().toArray()[0];
+		konto.wyplata(wyplata);		
+		assertEquals(2, konto.getHistoria().size());		
+		Set<Date> temp = konto.getHistoria().keySet();
+		temp.remove(d1);
+		d1 = (Date) temp.toArray()[0];
+		w = konto.getHistoria().get(d1);
+		assertEquals(w.getOperacja(), Operacja.WYPLATA);
+		assertEquals(wyplata, (Double) w.getParams().get(0), 0.01);
 	}
 
 }
