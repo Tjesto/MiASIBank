@@ -17,7 +17,7 @@ public class Konta {
 
 	private int IDGenerator;
 
-	public String getId() throws Exception {
+	private String getId() throws Exception {
 		IDGenerator++;
 		
 		String fill = prefix;
@@ -32,12 +32,15 @@ public class Konta {
 		}
 
 		boolean finishLoop = false;
+		
+		IDGenerator = 0;
+		
 		while( !finishLoop )
 		{
 			String tmp = fill + Integer.toString(IDGenerator);
 			finishLoop = true;
 			for( int i = 0; i < konta.size(); i++ ){
-				if( konta.get(i).getID().equals(tmp) ){
+				if( konta.get(i).getId().equals(tmp) ){
 					finishLoop = false;
 				}
 			}
@@ -64,6 +67,16 @@ public class Konta {
 			tmp = prefix + Integer.toString(IDGenerator);
 		}
 		throw new Exception("Unreachable code getId");
+	}
+	
+	public void createKonto(Wlasciciel wlasciciel){
+		Konto konto = new Konto(wlasciciel);
+		try {
+			konto.setId(this.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getPrefix() throws Exception {

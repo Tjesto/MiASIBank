@@ -5,14 +5,15 @@ package pl.put.miasi.bank;
  *
  */
 public class Bank {
-	private String ID;
+	private String Id;
 	//TODO: implement
 
-	public String getID() {
-		return ID;
+	public String getId() {
+		return this.Id;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setId(String Id) {
+		this.Id = Id;
 	}
+	
 }

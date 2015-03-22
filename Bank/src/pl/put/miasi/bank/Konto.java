@@ -33,7 +33,7 @@ public class Konto {
 	
 	private double saldo;
 	
-	private String ID;
+	private String Id;
 	
 	private final Wlasciciel wlasciciel;
 	
@@ -58,7 +58,7 @@ public class Konto {
 			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WPLATA, kwota));
 			saldo += kwota;
 		} else {
-			throw new IllegalArgumentException("Wp³ata nie mo¿e byæ ujemna");
+			throw new IllegalArgumentException("Wpï¿½ata nie moï¿½e byï¿½ ujemna");
 		}
 	}
 	
@@ -67,9 +67,9 @@ public class Konto {
 			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WYPLATA, kwota));
 			saldo -= kwota;
 		} else if (kwota >=0) {
-			throw new IllegalStateException("Brak wystarczaj¹cych œrodków na koncie");
+			throw new IllegalStateException("Brak wystarczajï¿½cych ï¿½rodkï¿½w na koncie");
 		} else {
-			throw new IllegalArgumentException("Wyp³ata nie mo¿e byæ ujemna");
+			throw new IllegalArgumentException("Wypï¿½ata nie moï¿½e byï¿½ ujemna");
 		}
 	}
 
@@ -97,12 +97,12 @@ public class Konto {
 		this.debet = debet;
 	}
 
-	public String getID() {
-		return ID;
+	public String getId() {
+		return Id;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setId(String id) {
+		this.Id = id;
 	}
 
 	public String getPin() {
