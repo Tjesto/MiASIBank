@@ -1,48 +1,61 @@
 package pl.put.miasi.bank;
 
 /**
- * @author Miko³aj Ignaszak
+ * @author Mikoï¿½aj Ignaszak
  *
  */
-public class OddzialBanku implements IAuthorization {
+public class OddzialBanku implements IAuthorization, IBank {
 
 	private double cashAmount;
 	
-	public OddzialBanku(double cashAmount){
+	private Bank bank;
+	
+	public OddzialBanku(double cashAmount, Bank bank){
 		this.cashAmount = cashAmount;		
+		this.bank = bank;
 	}
 
-	public Boolean Authorization(Konto account, String pin) {
+	public boolean Authorization(Konto account, String pin) {
 		
-		return null;
+		return false;
 	}
 
-	public Boolean Authorization(Konto account, Wlasciciel owner) {
-		Boolean correct = false;
-		
-		if(owner==account.getWlasciciel())
-			correct = true;
-		else
-			throw new IllegalArgumentException("Brak dostêpu dla osoby nie bêd¹cej w³aœcicielem konta");
-		
-		return correct;
+	public boolean Authorization(Konto account, Wlasciciel owner) {
+		return bank.Authorization(account, owner);
 	}
-	
-	public void Wplata(double inCash, Konto account, String accountPassword){
-		if(Authorization(account, accountPassword)){
-			cashAmount += inCash;
-			account.wplata(inCash);
-		}
+
+	@Override
+	public boolean RemoveKonto(Konto account, Wlasciciel owner) {
+		return RemoveKonto(account, owner);
 	}
-	
-	public void Wyplata(double outCash, Konto account, String accountPassword){
-		if(Authorization(account, accountPassword) ){
-			if(outCash<=this.cashAmount){				
-			cashAmount -= outCash;
-			account.wyplata(outCash);
-			}
-			else
-				throw new IllegalArgumentException("Brak wystarczaj¹cych œrodków w bankomacie");
-		}
+
+	@Override
+	public String getId() {
+		return bank.getId();
+	}
+
+	@Override
+	public boolean CreateKonto(Wlasciciel wlasciciel) {
+		return bank.CreateKonto(wlasciciel);
+	}
+
+	@Override
+	public boolean Wyplata(double outCash, Konto account, Wlasciciel owner) {
+		return bank.Wplata(outCash, account, owner);
+	}
+
+	@Override
+	public boolean Wyplata(double outCash, Konto account, String pin) {
+		return false;
+	}
+
+	@Override
+	public boolean Wplata(double inCash, Konto account, Wlasciciel owner) {
+		return bank.Wplata(inCash, account, owner);
+	}
+
+	@Override
+	public boolean Wplata(double inCash, Konto account, String pin) {
+		return false;
 	}	
 }

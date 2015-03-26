@@ -1,40 +1,31 @@
 package pl.put.miasi.bank;
 
 /**
- * @author Miko³aj Ignaszak
- *
+ * @author Mikoï¿½aj Ignaszak
+ * 
  */
-public class Bankomat implements IAuthorization {
+public class Bankomat implements IWyplata {
 
 	private double cashAmount;
-	
-	public Bankomat(double cashAmount){
-		this.cashAmount = cashAmount;		
-	}
-	
-	public Boolean Authorization(Konto account, String pin){
-		Boolean correct = false;
-		
-		if(pin==account.getPin())
-			correct = true;
-		else
-			throw new IllegalArgumentException("B³êdny PIN");
-		
-		return correct;
-	}
-	
-	public void Wyplata(double outCash, Konto account, String accountPassword){
-		if(Authorization(account, accountPassword) ){
-			if(outCash<=this.cashAmount){				
-			cashAmount -= outCash;
-			account.wyplata(outCash);
-			}
-			else
-				throw new IllegalArgumentException("Brak wystarczaj¹cych œrodków w bankomacie");
-		}
+
+	private Bank bank;
+
+	public Bankomat(double cashAmount, Bank bank) {
+		this.cashAmount = cashAmount;
+		this.bank = bank;
 	}
 
-	public Boolean Authorization(Konto account, Wlasciciel owner) {	
-		return null;
+	@Override
+	public boolean Wyplata(double outCash, Konto account, Wlasciciel owner) {
+		return false;
 	}
+
+	@Override
+	public boolean Wyplata(double outCash, Konto account, String pin) {
+		if (outCash - outCash < 0) {
+			return bank.Wyplata(outCash, account, pin);
+		}
+		return false;
+	}
+
 }

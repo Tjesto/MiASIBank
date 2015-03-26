@@ -1,5 +1,6 @@
 package pl.put.miasi.bank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Banki {
 	
-	private List<Bank> banki;
+	private ArrayList<Bank> banki;
 	
 	private int prefixLength = 8;
 
@@ -69,9 +70,8 @@ public class Banki {
 	}
 	
 	public void createBank(){
-		Bank bank = new Bank();
 		try {
-			bank.setId(this.getId());
+			Bank bank = new Bank(this.getId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,12 +89,12 @@ public class Banki {
 		prefixGenerator = 0;
 	}
 
-	public Banki(List<Bank> banki) {
+	public Banki(ArrayList<Bank> banki) {
 		this.banki = banki;
 		prefixGenerator = 0;
 	}
 
-	public Banki(String prefix, List<Bank> banki) {
+	public Banki(String prefix, ArrayList<Bank> banki) {
 		this.prefix = prefix;
 		this.banki = banki;
 		prefixGenerator = 0;

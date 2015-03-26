@@ -1,36 +1,28 @@
 package pl.put.miasi.bank;
 
 /**
- * @author Miko³aj Ignaszak
+ * @author Mikoï¿½aj Ignaszak
  *
  */
-public class Wplatomat implements IAuthorization {
+public class Wplatomat implements IWplata {
 
 	private double cashAmount;
 	
-	public Wplatomat(double cashAmount){
+	private Bank bank;
+	
+	public Wplatomat(double cashAmount, Bank bank){
 		this.cashAmount = cashAmount;		
+		this.bank = bank;
 	}
-	
-	public Boolean Authorization(Konto account, String pin){
-		Boolean correct = false;
-		
-		if(pin==account.getPin())
-			correct = true;
-		else
-			throw new IllegalArgumentException("B³êdny PIN");
-		
-		return correct;
+
+	@Override
+	public boolean Wplata(double inCash, Konto account, Wlasciciel owner) {
+		return false;
 	}
-	
-	public void Wplata(double inCash, Konto account, String accountPassword){
-		if(Authorization(account, accountPassword)){
-			cashAmount += inCash;
-			account.wplata(inCash);
-		}
+
+	@Override
+	public boolean Wplata(double inCash, Konto account, String pin) {
+		return bank.Wplata(inCash, account, pin);
 	}
-	
-	public Boolean Authorization(Konto account, Wlasciciel owner) {		
-		return null;
-	}
+
 }

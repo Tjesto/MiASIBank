@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class Konto {
 	
 	private String Id;
 	
-	private final Wlasciciel wlasciciel;
+	private final ArrayList<Wlasciciel> wlasciciel;
 	
 	private final Map<Date, Wpis> historia;//co zamiast inta?
 
@@ -43,12 +44,37 @@ public class Konto {
 	
 	private String pin;
 	
+	private String generatePin(){
+		String tmp;
+		Random generator = new Random();
+		tmp = Integer.toString(generator.nextInt());
+		if( tmp.length() > 4 ){
+			tmp.substring(0, 4);
+		}
+		
+		while( tmp.length() < 4 )
+		{
+			tmp.concat("0");
+		}
+		
+		return tmp;
+	}
+	
 	public Konto(Wlasciciel wlasciciel) {
 		this(wlasciciel, 0);
 	}
 	
 	public Konto(Wlasciciel wlasciciel, double saldo) {
-		this.wlasciciel = wlasciciel;			
+		this.pin = generatePin();
+		this.wlasciciel = new ArrayList<Wlasciciel>();			
+		this.wlasciciel.add(wlasciciel);
+		this.saldo = Math.max(saldo, 0);
+		historia = new HashMap<Date, Wpis>();		
+	}
+
+	public Konto(ArrayList<Wlasciciel> wlasciciele, double saldo) {
+		this.pin = generatePin();
+		this.wlasciciel = wlasciciele;			
 		this.saldo = Math.max(saldo, 0);
 		historia = new HashMap<Date, Wpis>();		
 	}	
@@ -81,7 +107,7 @@ public class Konto {
 		this.saldo = saldo;
 	}
 
-	public Wlasciciel getWlasciciel() {
+	public ArrayList<Wlasciciel> getWlasciciel() {
 		return wlasciciel;
 	}
 
@@ -111,5 +137,18 @@ public class Konto {
 
 	public void setPin(String pin) {
 		this.pin = pin;
+	}
+	
+	public boolean Wplata(double Cash){
+		this.saldo += Cash;
+		return true;
+	}
+	public boolean Wyplata(double Cash){
+		if( this.saldo - Cash > - this.debet )
+		{
+			saldo -= Cash;
+			return true;
+		}
+		return false;
 	}
 }
