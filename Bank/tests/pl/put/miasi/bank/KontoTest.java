@@ -135,9 +135,8 @@ public class KontoTest {
 		double in = rand.nextInt(3000) + 1000;
 		konto.wplata(in);		
 		assertEquals(1, konto.getHistoria().size());
-		Long d1 = (Long) konto.getHistoria().keySet().iterator().next();
+		Date d1 = (Date) konto.getHistoria().keySet().iterator().next();
 		Wpis w = konto.getHistoria().get(d1);
-		int s = konto.getHistoria().size();
 		assertEquals(w.getOperacja(), Operacja.WPLATA);
 		assertEquals(in, (Double) w.getParams().get(0), 0.01);
 		double wyplata = rand.nextInt(300)*rand.nextDouble();
@@ -147,9 +146,9 @@ public class KontoTest {
 		Thread.sleep(1000);
 		konto.wyplata(wyplata);		
 		assertEquals(2, konto.getHistoria().size());		
-		Set<Long> temp = konto.getHistoria().keySet();
+		Set<Date> temp = konto.getHistoria().keySet();
 		temp.remove(d1);
-		d1 = (Long) temp.iterator().next();
+		d1 = (Date) temp.iterator().next();
 		w = konto.getHistoria().get(d1);
 		assertEquals(w.getOperacja(), Operacja.WYPLATA);
 		assertEquals(wyplata, (Double) w.getParams().get(0), 0.01);

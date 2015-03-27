@@ -38,7 +38,7 @@ public class Konto {
 	
 	private final ArrayList<Wlasciciel> wlasciciel;
 	
-	private final Map<Long, Wpis> historia;//co zamiast inta?
+	private final Map<Date, Wpis> historia;//co zamiast inta?
 
 	private double debet;
 	
@@ -69,19 +69,19 @@ public class Konto {
 		this.wlasciciel = new ArrayList<Wlasciciel>();			
 		this.wlasciciel.add(wlasciciel);
 		this.saldo = Math.max(saldo, 0);
-		historia = new HashMap<Long, Wpis>();		
+		historia = new HashMap<Date, Wpis>();		
 	}
 
 	public Konto(ArrayList<Wlasciciel> wlasciciele, double saldo) {
 		this.pin = generatePin();
 		this.wlasciciel = wlasciciele;			
 		this.saldo = Math.max(saldo, 0);
-		historia = new HashMap<Long, Wpis>();		
+		historia = new HashMap<Date, Wpis>();		
 	}	
 	
 	public void wplata(double kwota) throws IllegalArgumentException {
 		if (kwota >=0) {
-			historia.put(System.currentTimeMillis(), new Wpis(Operacja.WPLATA, kwota));
+			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WPLATA, kwota));
 			saldo += kwota;
 		} else {
 			throw new IllegalArgumentException("Wpłata nie może być ujemna");
@@ -90,7 +90,7 @@ public class Konto {
 	
 	public void wyplata(double kwota) {
 		if (kwota >=0 && saldo - kwota >= -debet) {
-			historia.put(System.currentTimeMillis(), new Wpis(Operacja.WYPLATA, kwota));
+			historia.put(new Date(System.currentTimeMillis()), new Wpis(Operacja.WYPLATA, kwota));
 			saldo -= kwota;
 		} else if (kwota >=0) {
 			throw new IllegalStateException("Brak wystarczających środków na koncie");
@@ -111,7 +111,7 @@ public class Konto {
 		return wlasciciel;
 	}
 
-	public Map<Long, Wpis> getHistoria() {
+	public Map<Date, Wpis> getHistoria() {
 		return historia;
 	}
 
