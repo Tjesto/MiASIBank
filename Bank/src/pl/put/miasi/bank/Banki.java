@@ -1,5 +1,6 @@
 package pl.put.miasi.bank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Banki {
 	
-	private List<Bank> banki;
+	private ArrayList<Bank> banki;
 	
 	private int prefixLength = 8;
 
@@ -18,7 +19,7 @@ public class Banki {
 	
 	private String prefix;
 
-	public String getId() throws Exception
+	private String getId() throws Exception
 	{
 		prefixGenerator++;
 		
@@ -39,7 +40,7 @@ public class Banki {
 			String tmp = fill + Integer.toString(prefixGenerator);
 			finishLoop = true;
 			for( int i = 0; i < banki.size(); i++ ){
-				if( banki.get(i).getID().equals(tmp) ){
+				if( banki.get(i).getId().equals(tmp) ){
 					finishLoop = false;
 				}
 			}
@@ -67,6 +68,16 @@ public class Banki {
 		}
 		throw new Exception("Unreachable code getId");
 	}
+	
+	public void createBank(){
+		try {
+			Bank bank = new Bank(this.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public Banki() {
 		this.prefix = new String();
@@ -78,12 +89,12 @@ public class Banki {
 		prefixGenerator = 0;
 	}
 
-	public Banki(List<Bank> banki) {
+	public Banki(ArrayList<Bank> banki) {
 		this.banki = banki;
 		prefixGenerator = 0;
 	}
 
-	public Banki(String prefix, List<Bank> banki) {
+	public Banki(String prefix, ArrayList<Bank> banki) {
 		this.prefix = prefix;
 		this.banki = banki;
 		prefixGenerator = 0;
@@ -100,6 +111,10 @@ public class Banki {
 
 	public void setPrefixLength(int prefixLength) {
 		this.prefixLength = prefixLength;
+	}
+
+	public List<Bank> getBanki() {
+		return banki;
 	}
 	
 	

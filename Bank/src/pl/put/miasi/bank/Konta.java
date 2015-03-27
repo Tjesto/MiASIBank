@@ -1,5 +1,6 @@
 package pl.put.miasi.bank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,9 +8,9 @@ import java.util.List;
  * @author Ryszard Wojtkowiak
  * 
  */
-public class Konta {
+public class Konta implements IAuthorization {
 
-	private List<Konto> konta;
+	private ArrayList<Konto> konta;
 
 	private String prefix;
 	
@@ -17,7 +18,7 @@ public class Konta {
 
 	private int IDGenerator;
 
-	public String getId() throws Exception {
+	private String getId() throws Exception {
 		IDGenerator++;
 		
 		String fill = prefix;
@@ -32,12 +33,15 @@ public class Konta {
 		}
 
 		boolean finishLoop = false;
+		
+		IDGenerator = 0;
+		
 		while( !finishLoop )
 		{
 			String tmp = fill + Integer.toString(IDGenerator);
 			finishLoop = true;
 			for( int i = 0; i < konta.size(); i++ ){
-				if( konta.get(i).getID().equals(tmp) ){
+				if( konta.get(i).getId().equals(tmp) ){
 					finishLoop = false;
 				}
 			}
@@ -65,6 +69,18 @@ public class Konta {
 		}
 		throw new Exception("Unreachable code getId");
 	}
+	
+	public boolean createKonto(Wlasciciel wlasciciel){
+		Konto konto = new Konto(wlasciciel);
+		try {
+			konto.setId(this.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 
 	public String getPrefix() throws Exception {
 		if (prefix == null) {
@@ -88,12 +104,13 @@ public class Konta {
 		return konta;
 	}
 
-	public void setKonta(List<Konto> konta) {
+	public void setKonta(ArrayList<Konto>konta) {
 		this.konta = konta;
 	}
 
 	public Konta() {
 		this.prefix = new String();
+		this.konta = new ArrayList<Konto>();
 		IDGenerator = 0;
 	}
 
@@ -102,12 +119,12 @@ public class Konta {
 		IDGenerator = 0;
 	}
 
-	public Konta(List<Konto> konta) {
+	public Konta(ArrayList<Konto> konta) {
 		this.konta = konta;
 		IDGenerator = 0;
 	}
 
-	public Konta(String prefix, List<Konto> konta) {
+	public Konta(String prefix, ArrayList<Konto> konta) {
 		this.prefix = prefix;
 		this.konta = konta;
 		IDGenerator = 0;
@@ -120,4 +137,32 @@ public class Konta {
 	public void setPrefixLength(int prefixLength) {
 		this.prefixLength = prefixLength;
 	}
+	
+	public boolean accountExists( Konto account ){
+		if( konta != null ){
+			return konta.contains(account);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean Authorization(Konto account, String pin) {
+		if( konta != null ){
+			if(konta.contains(account) == true){
+				return account.getPin().equals(pin);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean Authorization(Konto account, Wlasciciel owner) {
+		if( konta != null ){
+			if(konta.contains(account) == true){
+				return account.getWlasciciel().contains(owner);
+			}
+		}
+		return false;
+	}
+	
 }
